@@ -1,18 +1,18 @@
 import { provideHttpClient } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MAX_TEXT_LENGTH } from '../core/models/speech';
-import { Studio } from './studio';
+import { MAX_TEXT_LENGTH } from '../../core/models/speech.model';
+import { StudioComponent } from './studio.component';
 
-describe('Studio', () => {
-  let fixture: ComponentFixture<Studio>;
+describe('StudioComponent', () => {
+  let fixture: ComponentFixture<StudioComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Studio],
+      imports: [StudioComponent],
       providers: [provideHttpClient()],
     }).compileComponents();
-    fixture = TestBed.createComponent(Studio);
+    fixture = TestBed.createComponent(StudioComponent);
     await fixture.whenStable();
   });
 

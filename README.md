@@ -4,6 +4,22 @@ Angular client for Purr, a local text-to-speech studio. One screen, **Estudio**,
 
 The app uses Angular 22 standalone components, signals, and `HttpClient`. The API base URL is the `API_BASE_URL` injection token and defaults to `http://127.0.0.1:8000`. An empty token value keeps the calls relative (`/api/v1/...`) for a same-origin proxy.
 
+## Structure
+
+`core` is the shared layer. `pages` holds the screen. There is no `shared` folder until a widget is used by more than one page.
+
+```text
+src/app/
+├── core/
+│   ├── config/        API base URL
+│   ├── models/        speech request, track, and voice catalog
+│   ├── mappers/       request, API errors, and display labels
+│   └── services/      SpeechApiService
+└── pages/studio/      lazy-loaded Estudio screen
+```
+
+Types stay in `core/models`. Injectable services stay in `core/services`. The page does not call `HttpClient` itself.
+
 **Author:** [HugoFernandoColmenares](https://github.com/HugoFernandoColmenares)
 
 ## Guides

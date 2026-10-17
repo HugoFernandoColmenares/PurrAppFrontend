@@ -27,13 +27,3 @@ export const EXPRESSIONS: readonly ExpressionOption[] = [
   { value: 'energetic', label: 'Enérgica' },
   { value: 'sad', label: 'Triste' },
 ];
-
-const EXPRESSION_LABELS = new Map<string, string>(
-  EXPRESSIONS.flatMap((item) =>
-    item.value === null ? [] : [[item.value, item.label] as const],
-  ),
-);
-
-export function expressionLabel(value: string): string {
-  return EXPRESSION_LABELS.get(value) ?? value;
-}

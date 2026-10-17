@@ -1,6 +1,6 @@
-import { formatCreatedAt, formatDuration } from './speech-format';
+import { formatCreatedAt, formatDuration } from './speech-display.mapper';
 
-describe('speech format', () => {
+describe('speech display', () => {
   it('formats duration with a Spanish decimal comma', () => {
     expect(formatDuration(3.2)).toBe('3,2 s');
   });

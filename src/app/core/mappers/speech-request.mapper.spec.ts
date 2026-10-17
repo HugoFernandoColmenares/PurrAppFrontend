@@ -1,8 +1,8 @@
-import { MAX_TEXT_LENGTH } from './models/speech';
+import { MAX_TEXT_LENGTH } from '../models/speech.model';
 import {
   speechTextError,
   toGenerateSpeechRequest,
-} from './speech-text';
+} from './speech-request.mapper';
 
 describe('speechTextError', () => {
   it('rejects blank text with the domain message', () => {

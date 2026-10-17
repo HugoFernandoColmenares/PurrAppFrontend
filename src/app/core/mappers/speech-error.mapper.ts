@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 
-import { UNREACHABLE_MESSAGE } from './models/speech';
+import { UNREACHABLE_MESSAGE } from '../models/speech.model';
 
 export function speechErrorMessage(error: unknown): string {
   if (error instanceof HttpErrorResponse) {

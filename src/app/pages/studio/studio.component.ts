@@ -1,27 +1,34 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, computed, inject, signal } from '@angular/core';
-
-import { SpeechApiService } from '../core/speech-api.service';
 import {
-  EXPRESSIONS,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
+
+import {
   expressionLabel,
-  VOICES,
-} from '../core/speech-catalog';
-import { speechErrorMessage } from '../core/speech-error';
-import { formatCreatedAt, formatDuration } from '../core/speech-format';
-import { AudioTrackResponse } from '../core/models/speech';
+  formatCreatedAt,
+  formatDuration,
+} from '../../core/mappers/speech-display.mapper';
+import { speechErrorMessage } from '../../core/mappers/speech-error.mapper';
 import {
   cleanedSpeechText,
   speechTextError,
   toGenerateSpeechRequest,
-} from '../core/speech-text';
+} from '../../core/mappers/speech-request.mapper';
+import { EXPRESSIONS, VOICES } from '../../core/models/speech-catalog.model';
+import { AudioTrack, MAX_TEXT_LENGTH } from '../../core/models/speech.model';
+import { SpeechApiService } from '../../core/services/speech-api.service';
 
 @Component({
   selector: 'app-studio',
-  templateUrl: './studio.html',
-  styleUrl: './studio.css',
+  templateUrl: './studio.component.html',
+  styleUrl: './studio.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Studio {
+export class StudioComponent {
   private readonly api = inject(SpeechApiService);
 
   protected readonly voices = VOICES;
@@ -35,14 +42,16 @@ export class Studio {
   protected readonly expression = signal<string | null>(null);
   protected readonly normalize = signal(true);
   protected readonly generating = signal(false);
-  protected readonly track = signal<AudioTrackResponse | null>(null);
+  protected readonly track = signal<AudioTrack | null>(null);
   protected readonly clientError = signal<string | null>(null);
   protected readonly serverError = signal<string | null>(null);
 
   protected readonly count = computed(
     () => cleanedSpeechText(this.text()).length,
   );
-  protected readonly overLimit = computed(() => this.count() > 500);
+  protected readonly overLimit = computed(
+    () => this.count() > MAX_TEXT_LENGTH,
+  );
   protected readonly canSubmit = computed(
     () => !this.generating() && speechTextError(this.text()) === null,
   );

@@ -9,7 +9,7 @@ export interface GenerateSpeechRequest {
   normalize: boolean;
 }
 
-export interface AudioTrackResponse {
+export interface AudioTrack {
   id: string;
   text: string;
   voice: string;

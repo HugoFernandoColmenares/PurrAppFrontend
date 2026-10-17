@@ -1,7 +1,7 @@
 import {
   GenerateSpeechRequest,
   MAX_TEXT_LENGTH,
-} from './models/speech';
+} from '../models/speech.model';
 
 export function cleanedSpeechText(text: string): string {
   return text.trim();

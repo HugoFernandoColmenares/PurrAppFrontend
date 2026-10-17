@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 
-import { speechErrorMessage } from './speech-error';
+import { speechErrorMessage } from './speech-error.mapper';
 
 describe('speechErrorMessage', () => {
   it('shows the API detail', () => {

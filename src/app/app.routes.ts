@@ -1,5 +1,11 @@
 import { Routes } from '@angular/router';
 
-import { Studio } from './studio/studio';
-
-export const routes: Routes = [{ path: '', component: Studio }];
+export const routes: Routes = [
+  {
+    path: '',
+    loadComponent: () =>
+      import('./pages/studio/studio.component').then(
+        (module) => module.StudioComponent,
+      ),
+  },
+];
