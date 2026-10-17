@@ -1,59 +1,52 @@
 # Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.0.7.
+Angular client for Purr, a local text-to-speech studio. One screen, **Estudio**, sends text and a voice to the PurrPy API, waits for synthesis, and plays the WAV the service returns.
+
+The app uses Angular 22 standalone components, signals, and `HttpClient`. The API base URL is the `API_BASE_URL` injection token and defaults to `http://127.0.0.1:8000`. An empty token value keeps the calls relative (`/api/v1/...`) for a same-origin proxy.
+
+**Author:** [HugoFernandoColmenares](https://github.com/HugoFernandoColmenares)
+
+## Guides
+
+Local notes, kept out of git:
+
+- [Architecture](docs/files/architecture_guidelines.md) — product, API contract, screen, and Angular shape.
+- [Design](docs/files/design_guidelines.md) — color, type, layout, and CSS rules.
 
 ## Development server
-
-To start a local development server, run:
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Open `http://localhost:4200/`. The dev server reloads when source files change.
+
+The backend does not declare CORS yet. A page on port 4200 cannot call `http://127.0.0.1:8000` from the browser until the API allows that origin or a proxy serves both from one host.
+
+## Scripts
+
+| Command | What it does |
+| --- | --- |
+| `ng build` | Production build in `dist/frontend/` |
+| `ng test --watch=false` | Unit tests with Vitest |
+| `npm run e2e` | Playwright tests in Chromium against `ng serve` |
+
+End-to-end tests mock `POST /api/v1/speech/generate`, so they do not need the speech engine. They also write the studio screenshots to `docs/screenshots/`:
+
+- `estudio-inicial.png`
+- `estudio-generando.png`
+- `estudio-listo.png`
+- `estudio-error.png`
+- `estudio-movil.png`
 
 ## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
 
 ```bash
 ng generate component component-name
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+`ng generate --help` lists the other schematics.
 
-```bash
-ng generate --help
-```
+## Additional resources
 
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+[Angular CLI overview](https://angular.dev/tools/cli)

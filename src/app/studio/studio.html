@@ -1,0 +1,118 @@
+<main class="studio" aria-label="Estudio">
+  <div class="studio__card">
+    <header class="studio__brand">
+      <h1>Purr</h1>
+      <p>Texto a voz local</p>
+    </header>
+
+    <form (submit)="generate($event)">
+      <div class="studio__field">
+        <label for="speech-text">Texto</label>
+        <textarea
+          id="speech-text"
+          rows="6"
+          [value]="text()"
+          [attr.aria-describedby]="describedBy()"
+          [attr.aria-invalid]="alertMessage() ? true : null"
+          (input)="onText($event)"
+        ></textarea>
+        <p id="speech-hint" class="studio__note">
+          El modelo está entrenado en inglés y suena mejor en ese idioma.
+        </p>
+        <p
+          id="speech-count"
+          class="studio__count"
+          [class.studio__count--over]="overLimit()"
+        >
+          {{ count() }} / 500
+        </p>
+      </div>
+
+      <fieldset class="studio__group">
+        <legend>Voces</legend>
+        <div class="studio__voices">
+          @for (item of voices; track item.value) {
+            <button
+              type="button"
+              class="studio__voice"
+              [class.studio__voice--active]="voice() === item.value"
+              [attr.aria-pressed]="voice() === item.value"
+              (click)="selectVoice(item.value)"
+            >
+              <span class="studio__voice-name">{{ item.value }}</span>
+              <span class="studio__note">{{ item.tone }}</span>
+            </button>
+          }
+        </div>
+      </fieldset>
+
+      <fieldset class="studio__group">
+        <legend>Expresión</legend>
+        <div class="studio__expressions">
+          @for (item of expressions; track item.label) {
+            <button
+              type="button"
+              class="studio__pill"
+              [class.studio__pill--active]="expression() === item.value"
+              [attr.aria-pressed]="expression() === item.value"
+              (click)="selectExpression(item.value)"
+            >
+              {{ item.label }}
+            </button>
+          }
+        </div>
+        <p class="studio__note">
+          Esta etiqueta solo se guarda: este modelo no cambia la prosodia.
+        </p>
+      </fieldset>
+
+      <details class="studio__options">
+        <summary>Opciones</summary>
+        <label class="studio__toggle">
+          <input
+            type="checkbox"
+            [checked]="normalize()"
+            (change)="onNormalize($event)"
+          />
+          Normalizar audio
+        </label>
+      </details>
+
+      <button class="studio__submit" type="submit" [disabled]="!canSubmit()">
+        {{ generating() ? 'Generando…' : 'Generar voz' }}
+      </button>
+
+      <p class="studio__status" aria-live="polite">
+        @if (generating()) {
+          La primera vez puede tardar porque el modelo se descarga.
+        }
+      </p>
+
+      @if (alertMessage(); as message) {
+        <p id="speech-error" class="studio__alert" role="alert">{{ message }}</p>
+      }
+    </form>
+
+    <section class="studio__result">
+      @if (track(); as ready) {
+        <audio controls [src]="ready.download_url"></audio>
+        <p>{{ ready.text }}</p>
+        <p class="studio__meta">
+          {{ ready.voice }}
+          @if (ready.expression) {
+            · {{ expressionLabel(ready.expression) }}
+          }
+          · {{ formatDuration(ready.duration_seconds) }}
+        </p>
+        <p class="studio__meta">
+          {{ formatCreatedAt(ready.created_at) }} · {{ ready.sample_rate }} Hz
+        </p>
+        <a class="studio__download" [href]="ready.download_url" download>
+          Descargar WAV
+        </a>
+      } @else if (!generating()) {
+        <p class="studio__note">El audio aparecerá aquí.</p>
+      }
+    </section>
+  </div>
+</main>

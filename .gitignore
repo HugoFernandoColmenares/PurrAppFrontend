@@ -8,8 +8,12 @@
 
 # Node
 /node_modules
-npm-debug.log
-yarn-error.log
+.npm/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-store/
 
 # IDEs and editors
 .idea/
@@ -29,6 +33,15 @@ yarn-error.log
 !.vscode/mcp.json
 .history/*
 
+# Guías locales de producto y diseño
+/docs/files/
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
 # Miscellaneous
 /.angular/cache
 .sass-cache/
@@ -39,6 +52,24 @@ testem.log
 /typings
 __screenshots__/
 
+# Secretos y configuración local
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pfx
+credentials.json
+secrets.json
+
+# Cachés y restos de compilación
+*.log
+*.tsbuildinfo
+.eslintcache
+.stylelintcache
+
 # System files
 .DS_Store
 Thumbs.db
+ehthumbs.db
+Desktop.ini
